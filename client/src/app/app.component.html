@@ -18,7 +18,12 @@
                 *ngIf="pageService.isHandset$ | async">
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-            <span>{{pageService.pageTitle}}</span>
+            <span *ngIf="pageService.breadcrumbs.length == 0">{{pageService.pageTitle}}</span>
+            <span *ngIf="pageService.breadcrumbs.length > 0">
+                <span *ngFor="let breadcrumb of pageService.getOrderedBreadcrumbs(); let first = first; let last = last;">
+                    {{breadcrumb.title}} <span *ngIf="!last">/</span>
+                </span>
+            </span>
             <span fxFlex="fill"></span>
             <mat-spinner 
             color="accent"

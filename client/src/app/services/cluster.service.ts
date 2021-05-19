@@ -1,13 +1,12 @@
 import { Injectable }                               from '@angular/core';
-import { Observable, BehaviorSubject, of, ReplaySubject  }         from 'rxjs';
-import { map, catchError, share, switchMap, take }                   from "rxjs/operators";
+import { Observable, BehaviorSubject, of  }         from 'rxjs';
+import { map, catchError, take }                    from "rxjs/operators";
 
 import { CloudGuardDataSource }                     from './cloudguard.data-source';
 import { LocalStorageService }                      from './localstorage.service';
 import { ProfileService }                           from './profile.service';
 import { ProjectsService }                          from './projects.service';
 import { PreferenceService }                        from './preference.service';
-
 
 @Injectable({providedIn: 'root'})
 export class ClusterService {
@@ -25,6 +24,9 @@ export class ClusterService {
     public currentClusterSubject: BehaviorSubject<{currentCluster: any}>; 
     // Cluster observers
     public clusterFetch$ = {};
+    // States which a cluster is sensitive to changes/needs to be polled 
+    // @todo maybe add this to a config instead
+    public pollStates: Array<any> = ["creating", "patching"];
     // Platforms to pick when creating or editing cluster 
     // @todo maybe add this to a config instead
     public availablePlatforms = [
@@ -279,6 +281,18 @@ export class ClusterService {
         }
         // Update local storage aswell
         this.localStorageService.setItem('clusters-'+this.projectsService.currentProject.formatName, this.clusters);
+    }
+
+    public needsPolling(cluster: any):boolean{
+        return this.pollStates.includes(cluster.vendorState);
+    }
+
+    public canDelete(cluster: any):boolean{
+        return !this.pollStates.includes(cluster.vendorState);
+    }
+
+    public canPatch(cluster: any):boolean{
+        return !this.pollStates.includes(cluster.vendorState);
     }
 
     public getAKSKubeConfig(cluster: any): Observable<any>{

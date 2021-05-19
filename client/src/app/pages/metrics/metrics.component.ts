@@ -11,7 +11,7 @@ export class MetricsComponent implements OnInit {
   constructor(
     public pageService: PageService
   ) { 
-    this.pageService.pageTitle = "Metrics";
+    this.pageService.pageInit("Metrics");
   }
   ngOnInit() {
   }

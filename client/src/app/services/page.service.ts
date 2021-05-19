@@ -19,6 +19,7 @@ export class PageService {
     sideNavOpen: boolean;
     
     public pageTitle: string;
+    public breadcrumbs = [];
     public beforeLogin: string = "";
     public subscriptions: Array<any> = [];
     // Loader
@@ -42,6 +43,11 @@ export class PageService {
         // Save everytime to session
         this.localStorageService.setItem("settingsSession.sideNavOpen", this.sideNavOpen)
         return this.sideNavOpen;
+    }
+
+    public pageInit(pageTitle?: string){
+        this.wipeBreadcrumbs();
+        this.pageTitle = pageTitle;
     }
 
     public startLoader(message = "Something is loading."){
@@ -71,6 +77,32 @@ export class PageService {
                 return this.authService.hasCorrectRoleInProject(user, project['id'], allowedRoles);
             }
         }));
+    }
+
+    public wipeBreadcrumbs(){
+        this.breadcrumbs = [];
+    }
+
+    public addBreadcrumb(title: string, url?: string, order?:number){
+        if(!order){order = 0;}
+        this.breadcrumbs.push({title: title, url: url, order: order});
+    }
+
+    generateProjectBreadcrumbs(pagename: string, cluster?: any, namespace?: any){
+        this.wipeBreadcrumbs();
+        this.addBreadcrumb("Clusters", "", 0);
+        if(cluster && cluster.name){
+            this.addBreadcrumb(cluster.name, "", 1);
+        }
+        if(namespace && namespace.metadata && namespace.metadata.name){
+            this.addBreadcrumb("Namespaces", "", 2);
+            this.addBreadcrumb(namespace.metadata.name, "", 3);
+        }
+        this.addBreadcrumb(pagename, "", 3);
+    }
+
+    public getOrderedBreadcrumbs(){
+        return this.breadcrumbs.sort((a, b) => a.order - b.order);
     }
 
     public isActivePage(path: any, matchRootOnly = false): boolean {

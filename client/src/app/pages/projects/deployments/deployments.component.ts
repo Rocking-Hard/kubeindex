@@ -41,7 +41,8 @@ export class DeploymentsComponent {
     public logService: LogService,
     public pageService: PageService
   ) { 
-    this.pageService.pageTitle = "Deployments";
+    this.pageService.pageInit("Deployments");
+    this.pageService.generateProjectBreadcrumbs(this.pageService.pageTitle);
     
     // Do we already have a cluster and namespace in the url?
     this.pageService.trackSubscription(this.activatedRoute.params.subscribe((params: Params) => {
@@ -58,6 +59,7 @@ export class DeploymentsComponent {
     this.pageService.trackSubscription(
       combineLatest([this.clusterService.getCurrentCluster(), this.namespaceService.getCurrentNamespace()])
       .subscribe(([cluster, namespace]) => {
+        this.pageService.generateProjectBreadcrumbs(this.pageService.pageTitle, cluster, namespace);
         // First check if we need to redirect
         var uri = this.deploymentService.getCurrentUri();
 
@@ -73,6 +75,8 @@ export class DeploymentsComponent {
     }));
 
   }
+
+
 
   // TODO separate Deployment and Deployment Config
   deployDialog(): void {

@@ -25,7 +25,7 @@ export class LogsComponent {
     public dialog: MatDialog
 
   ) { 
-    this.pageService.pageTitle = "Admin > Logs";
+    this.pageService.pageInit("Admin > Logs");
     this.fetchLogs();
   }
 

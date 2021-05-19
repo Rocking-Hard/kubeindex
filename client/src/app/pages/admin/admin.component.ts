@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
     public pageService: PageService,
     public adminRoutes: ActivatedRoute,
     ) { 
-      this.pageService.pageTitle = "Admin";
+      this.pageService.pageInit("Admin");
     }
 
   ngOnInit() {

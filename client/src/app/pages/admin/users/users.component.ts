@@ -20,7 +20,7 @@ export class UsersComponent {
     public usersService: UsersService,
     public dialog: MatDialog
   ) { 
-    this.pageService.pageTitle = "Admin > Users";
+    this.pageService.pageInit("Admin > Users");
   }
 
   createUserDialog(): void {

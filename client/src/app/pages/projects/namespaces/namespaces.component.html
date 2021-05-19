@@ -6,6 +6,7 @@
       <search-filter 
         *ngIf="namespaces && namespaces.length > 1"
         [(filterText)]="namespaceService.filterText"
+        style="padding-right:8px;"
       ></search-filter>
       <button 
         style="min-width:120px;" 

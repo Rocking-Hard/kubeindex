@@ -18,7 +18,7 @@ export class DocsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public pageService: PageService
   ) { 
-    this.pageService.pageTitle = "Docs";
+    this.pageService.pageInit("Docs");
   }
 
 

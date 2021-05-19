@@ -11,7 +11,7 @@ export class AboutComponent implements OnInit {
   constructor(
     public pageService: PageService
   ) { 
-    this.pageService.pageTitle = "About";
+    this.pageService.pageInit("About");
   }
 
   ngOnInit() {

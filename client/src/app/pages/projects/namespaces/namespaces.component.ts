@@ -31,7 +31,8 @@ export class NamespacesComponent {
     private router: Router,
     public dialog: MatDialog
   ) { 
-      this.pageService.pageTitle = "Namespaces";
+    this.pageService.pageInit("Namespaces");
+      this.pageService.generateProjectBreadcrumbs(this.pageService.pageTitle);
       // Do we already have a cluster in the url?
       this.pageService.trackSubscription(this.activatedRoute.params.subscribe((params: Params) => {
         var clusterFormatname = params['clusterFormatname'];
@@ -42,12 +43,12 @@ export class NamespacesComponent {
 
       // Do the user wish to switch cluster?
       this.pageService.trackSubscription(this.clusterService.getCurrentCluster().subscribe((cluster: any) => {
+        this.pageService.generateProjectBreadcrumbs(this.pageService.pageTitle, cluster);
         var uri = this.namespaceService.getCurrentUri();
         if(this.router.url != uri){
           this.router.navigate([uri]);
         }
       }));
-
 
       this.namespaces = namespaceService.namespaces;
 

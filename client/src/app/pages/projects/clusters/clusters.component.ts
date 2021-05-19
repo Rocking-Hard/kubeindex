@@ -30,7 +30,7 @@ export class ClustersComponent {
     public apiService: ApiService,
     public dialog: MatDialog
   ) { 
-    this.pageService.pageTitle = "Clusters";
+    this.pageService.pageInit("Clusters");
   }
 
   createClusterDialog(): void {

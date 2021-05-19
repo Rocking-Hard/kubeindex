@@ -1,3 +1,4 @@
+
 <div class="cluster" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <div class="clusterName" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
@@ -19,7 +20,7 @@
         <div class="clusterVendorState" fxFlex 
             fxLayout="row"
             fxLayoutAlign="start space-between "
-            *ngIf="pollStates.includes(cluster.vendorState)"
+            *ngIf="this.clusterService.needsPolling(cluster)"
             (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
             <mat-progress-spinner 
                 style="margin-right:16px;"

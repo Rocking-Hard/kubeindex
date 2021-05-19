@@ -8,7 +8,6 @@
         (selectionChange)="switchCurrentCluster($event.value)" 
         [compareWith]="compareSelected"
         [disabled]="clusterService.clusters.length == 0"
-        
         >
         <mat-option 
             *ngFor="let cluster of clusterService.clusters;let i=index; last as isLast" 

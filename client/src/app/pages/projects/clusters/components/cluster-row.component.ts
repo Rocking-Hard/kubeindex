@@ -31,10 +31,13 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   public nodes: Array<any> = [];
   public nodeEvents: any;
   
-  public pollStates: Array<any> = ["creating", "patching", "unknown"];
+  // When cluster needs to be polled
   public pollTimeout = null;
-
   public estimate = null;
+  public progressbarType = "determinate";
+  public progressbarValue = 100;
+  public progressStart = 100;
+  public progressbarTick: number = 0;
 
   constructor(
     public clusterService: ClusterService,
@@ -69,7 +72,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
       await this.getAndStartEstimation(cluster.vendorState);
     }
 
-    if(!this.pollStates.includes(cluster.vendorState)){
+    if(!this.clusterService.needsPolling(cluster)){
       this.stopPollTimer();
       // One final refresh;
       await this.refreshClusterAndNodes();
@@ -106,13 +109,17 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   * TODO make this more compact
   */
   public async getAndStartEstimation(type?: string){
+    this.progressbarTick = 0;
+
     if(!this.estimate && this.cluster?.formatName){
       this.estimate = await this.clusterService.getEstimation(this.cluster, type).toPromise();
-      if(this.estimate.averageTime == 0){
+
+      if(!this.estimate.averageTime){
         this.estimate['timeMessage'] = "Can't estimate time for modification.";
         this.progressbarType = "indeterminate";
         return false;
       }
+
       var startTime = new Date(this.estimate.startTime);
       var currentTime = new Date(this.estimate.currentTime);
       var elapsedSeconds = Math.abs((currentTime.getTime() - startTime.getTime()) / 1000);
@@ -120,28 +127,28 @@ export class ClusterRowComponent implements OnInit, OnChanges {
       timeLeft = Math.round(timeLeft > 0 ? timeLeft : 0);
       this.estimate['timeMessage'] = "Estimating it to take " + timeLeft + " seconds";
       console.log(this.estimate['timeMessage']);
+
       this.progressbarValue = 100;
+      this.progressStart = this.progressbarValue - (elapsedSeconds / this.estimate.averageTime) * 100
       this.startTimer(timeLeft);
+      
     }
+
     return true;
   }
-
-  progressbarType = "determinate";
-  progressbarValue = 100;
-  curTick: number = 0;
 
   startTimer(seconds: number) {
     const limit = seconds * 5;
     const timer$ = interval(200);
 
     const sub = timer$.subscribe((tick) => {
-      if (!limit || this.curTick >= limit) {
+      if (!limit || this.progressbarTick >= limit) {
         sub.unsubscribe();
         return;
       }
 
-      this.progressbarValue = 100 - tick * 100 / limit;
-      this.curTick = tick;
+      this.progressbarValue = this.progressStart - tick * 100 / limit;
+      this.progressbarTick = tick;
       
     });
   }
@@ -192,8 +199,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-
-    if(this.pollStates.includes(this.cluster.vendorState) && !this.pollTimeout){
+    if(this.clusterService.needsPolling(this.cluster) && !this.pollTimeout){
       this.pollTimeout = this.pollClusterState();
     }
   }

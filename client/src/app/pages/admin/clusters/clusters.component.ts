@@ -28,7 +28,7 @@ export class ClustersComponent {
     public dialog: MatDialog,
     public router: Router
   ) { 
-    this.pageService.pageTitle = "Admin > Clusters";
+    this.pageService.pageInit("Admin > Clusters");
     this.cloudGuardDataSource.getClusters().subscribe((response:any) => {
         this.clusters = response;
     });

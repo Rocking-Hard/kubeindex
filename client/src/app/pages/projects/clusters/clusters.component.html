@@ -5,6 +5,7 @@
       <search-filter 
         *ngIf="(clusterService.clusters$ | async).length > 1"
         [(filterText)]="clusterService.filterText"
+        style="padding-right:8px !important;"
       ></search-filter>
       <button 
         style="min-width:100px;"

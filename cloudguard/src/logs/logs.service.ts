@@ -23,7 +23,7 @@ export class LoggerService extends Logger {
     }else if(error.response && error.response.body && error.response.body.code && error.response.body.message){
       var code = error.response.body.code;
       if(code != 404){
-        this.logger.error(error.response.body.message, error.stack);
+        super.error(error.response.body.message, error.stack);
       }
       this.verbose(error.response.body);
     }else if(error){

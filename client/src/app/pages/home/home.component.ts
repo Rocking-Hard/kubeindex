@@ -16,7 +16,7 @@ export class HomeComponent {
     public authService: AuthService,
     public pageService: PageService,
   ) {
-    this.pageService.pageTitle = "Start";
+    this.pageService.pageInit("Start");
     this.data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [

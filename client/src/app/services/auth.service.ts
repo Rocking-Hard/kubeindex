@@ -68,6 +68,9 @@ export class AuthService {
   }
 
   public hasCorrectRoleInProject(user: any, projectId: string, allowedRoles: string[]): boolean{
+    if(!user){
+      return false;
+    }
     if(user.usertype && user.usertype == 'admin'){
       return true;
     }
@@ -83,6 +86,7 @@ export class AuthService {
             }
         }
     }
+    return false;
   }
 
   public isRoleInProject(role: string, projectId: string): Observable<boolean>{

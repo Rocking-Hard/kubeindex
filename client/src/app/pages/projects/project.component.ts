@@ -11,7 +11,7 @@ export class ProjectComponent implements OnInit {
   constructor(
     public pageService: PageService
   ) { 
-    this.pageService.pageTitle = "Project";
+    this.pageService.pageInit("Project");
   }
   ngOnInit() {
   }

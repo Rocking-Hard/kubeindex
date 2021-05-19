@@ -23,7 +23,7 @@ export class ProjectsComponent {
     public dialog: MatDialog
 
   ) { 
-    this.pageService.pageTitle = "Admin > Projects";
+    this.pageService.pageInit("Admin > Projects");
     this.projectsService.fetchProjects();
   }
 

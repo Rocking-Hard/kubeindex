@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private router: Router, 
     public pageService: PageService
   ) {
-    this.pageService.pageTitle = "Login";
+    this.pageService.pageInit("Login");
   }
 
   login(){

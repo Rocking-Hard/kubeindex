@@ -21,7 +21,7 @@ export class LogsComponent implements OnInit {
     public pageService: PageService,
     public logService: LogService
   ) { 
-    this.pageService.pageTitle = "Logs";
+    this.pageService.pageInit("Logs");
   }
 
   ngOnInit() {

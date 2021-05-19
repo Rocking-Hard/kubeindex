@@ -36,7 +36,7 @@ export class RegistryComponent {
     public localStorageService: LocalStorageService, 
     public dialog: MatDialog
     ) { 
-    this.pageService.pageTitle = "Registry";
+      this.pageService.pageInit("Registry");
 
     this.registries = this.localStorageService.getItem('registries') ? this.localStorageService.getItem('registries') : [];
     

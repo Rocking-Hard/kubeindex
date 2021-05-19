@@ -34,7 +34,7 @@ export class RegistriesComponent {
     public router: Router, 
     public dialog: MatDialog
     ) { 
-    this.pageService.pageTitle = "Registries";
+      this.pageService.pageInit("Registries");
     
   }
 
