@@ -1,0 +1,52 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+    <mat-toolbar-row fxLayoutAlign="end center" fxLayoutGap="8px">
+      <span fxFlex="grow"></span>
+      <search-filter 
+        *ngIf="(clusterService.clusters$ | async).length > 1"
+        [(filterText)]="clusterService.filterText"
+      ></search-filter>
+      <button 
+        style="min-width:100px;"
+        *ngIf="pageService.guard(['admin']) | async" 
+        matTooltip="Add an already created cluster to Liftcrane" 
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="500"
+        mat-raised-button (click)="addExistingClusterDialog()">+ Existing</button>
+      <button 
+        style="min-width:90px;"
+        *ngIf="pageService.guard(['admin']) | async" 
+        matTooltip="Create a new AKS cluster in Azure" 
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="400"
+        mat-raised-button (click)="createClusterDialog()">+ New</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
+  <div class="pageContent" fxFlex="100">
+
+    <div class="somethingIsMissing" 
+      *ngIf="
+        !clusterService.clustersAreBeingFetched && 
+        (clusterService.clusters && clusterService.clusters.length == 0)
+      ">
+      No clusters yet
+    </div>
+    <mat-accordion multi>
+      <mat-expansion-panel 
+        class="clusterRow"
+        *ngFor="let cluster of clusterService.filteredClusters(); trackBy: trackByFormatName; let i=index; last as isLast;"
+        >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <cluster-row [cluster]="cluster" fxFlex="100"></cluster-row>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <cluster-details [cluster]="cluster" [closeAccordion]="closeAccordion" fxFlex="100"></cluster-details>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+

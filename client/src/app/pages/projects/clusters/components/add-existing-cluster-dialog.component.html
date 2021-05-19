@@ -1,0 +1,102 @@
+
+<form #createForm="ngForm" class="add-cluster-form" fxLayout="column" (onsubmit)="createExisting()">
+    <h1 mat-dialog-title>Add Existing Cluster</h1>
+    <div mat-dialog-content>
+
+        <mat-tab-group dynamicHeight color="accent" backgroundColor="" [(selectedIndex)]="tabIndex">
+            <mat-tab label="Overview" fxFlex="100">
+                <div style="margin-top:16px;"  fxFlex="100" fxLayout="column">
+                    <mat-form-field  fxFlex="100">
+                        <mat-label>Name</mat-label>
+                        <input name="name" [(ngModel)]="existingCluster.name" matInput>
+                    </mat-form-field>
+                
+                    <mat-form-field >
+                        <mat-label>ApiServer</mat-label>
+                        <input name="apiserver" [(ngModel)]="existingCluster.apiServer" matInput fxFlex="100">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <mat-form-field *ngIf="!authType || authType == 'token'">
+                        <mat-label>Token</mat-label>
+                        <textarea name="token" [(ngModel)]="existingCluster.token" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="authType == 'certificate'">
+                        <mat-label>Cert data</mat-label>
+                        <textarea name="certData" [(ngModel)]="existingCluster.certData" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="authType == 'certificate'">
+                        <mat-label>Key data</mat-label>
+                        <textarea name="keyData" [(ngModel)]="existingCluster.keyData" matInput></textarea>
+                    </mat-form-field>
+                    <mat-button-toggle-group [(ngModel)]="authType" name="fontStyle" aria-label="Font Style">
+                        <mat-button-toggle value="token">Token</mat-button-toggle>
+                        <mat-button-toggle value="certificate">Cert</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Advanced" fxLayout="row" fxFlex="100">
+                <div fxFlex="100" fxLayout="row" fxLayoutGap="16px"  style="margin-top:16px;">
+                    <mat-form-field fxFlex="50" >
+                        <mat-label>Platform</mat-label>
+                        <mat-select [(ngModel)]="existingCluster.platform" name="platform">
+                            <mat-option 
+                                *ngFor="let platform of platforms" 
+                                [value]="platform.value">{{platform.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="50">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select [(ngModel)]="existingCluster.vendor" name="vendor">
+                            <mat-option *ngFor="let vendor of vendors" [value]="vendor">{{vendor}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-tab>
+            <mat-tab label="KubeConfig" fxLayout="row" fxFlex="100">
+                <div fxFlex="100" fxLayout="column" fxFlex="100" style="margin-top:16px;">
+                    <mat-form-field  fxFlex="100" *ngIf="kubeConfigObject && !kubeConfigObject.clusters">
+                        <mat-label>Paste KubeConfig</mat-label>
+                        <textarea 
+                            [(ngModel)]="kubeConfigString"
+                            [matTextareaAutosize]="false"
+                            name="kubeConfig" 
+                            (ngModelChange)="pasteKubeConfig($event)" matInput fxFlex="100"></textarea>
+                    </mat-form-field>
+                    <div 
+                        class="clusterChoice"
+                        *ngIf="kubeConfigObject && kubeConfigObject.clusters && kubeConfigObject.clusters.length > 0"
+                    >
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            Multiple clusters found, pick one
+                            <button 
+                                style="margin-right:8px;"
+                                (click)="resetKubeConfig()"
+                                mat-raised-button aria-label="Paste a new KubeConfig">
+                                Start Over
+                            </button>
+                        </div>
+                        
+                        <ul>
+                            <li 
+                                *ngFor="let cluster of kubeConfigObject.clusters" 
+                                (click)="parseKubeConfig(cluster.name)"
+                                matTooltip="{{cluster.cluster.server}}" 
+                                [matTooltipPosition]="'left'"
+                                [matTooltipShowDelay]="500"
+                            >{{ cluster.name }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+        
+    </div>
+
+    <div mat-dialog-actions fxLayoutAlign="end">
+        <button color="accent" mat-raised-button (click)="createExisting()">Add Existing</button>
+        <button color="" mat-raised-button (click)="dialogRef.close()">Cancel</button>
+    </div>
+    
+</form>

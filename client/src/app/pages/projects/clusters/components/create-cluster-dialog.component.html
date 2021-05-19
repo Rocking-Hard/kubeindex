@@ -1,0 +1,70 @@
+<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()" (change)="formChanged()">
+    <h1 mat-dialog-title>
+        Create Cluster in Azure
+    </h1>
+    <div mat-dialog-content >
+        <div fxLayout="column" style="margin:0px 0;">
+            <mat-tab-group dynamicHeight color="accent" backgroundColor="">
+                <mat-tab label="Overview" fxFlex="100">
+                    <div fxFlex="100" fxLayout="row" style="margin:16px 0;">
+                        <mat-form-field fxFlex="100" >
+                            <mat-label>Name</mat-label>
+                            <input name="name" [(ngModel)]="newCluster.name" #clusterName="ngModel" required appForbiddenFormat matInput>
+                            <mat-error *ngIf="clusterName.errors">
+                                <span *ngIf="clusterName.errors.forbiddenFormat">Must be lowercase and no spaces.</span>
+                                <span *ngIf="clusterName.errors.required">Can't be empty.</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxLayout="row" fxLayoutGap="16px">
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Location</mat-label>
+                            <mat-select [(ngModel)]="newCluster.specification.location" name="location" (selectionChange)="formChanged()">
+                                <mat-option *ngFor="let location of locations" [value]="location.value">{{location.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="50">
+                            <mat-label>Platform</mat-label>
+                            <mat-select [(ngModel)]="newCluster.platform" name="platform" (selectionChange)="formChanged()">
+                                <mat-option 
+                                    *ngFor="let platform of platforms" 
+                                    [value]="platform.value">{{platform.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>        
+                </mat-tab>
+
+                <mat-tab label="Advanced" fxLayout="row" fxFlex="100">
+                    <mat-form-field style="margin-top:16px;" fxFlex="100">
+                        <mat-label>Kubernetes Version</mat-label>
+                        <mat-select [(ngModel)]="newCluster.specification.properties.kubernetesVersion" name="kubernetesVersion" (selectionChange)="formChanged()">
+                            <mat-option 
+                                *ngFor="let kubernetesVersion of kubernetesVersions" 
+                                [value]="kubernetesVersion.value">{{kubernetesVersion.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <object-editor [(dataObject)]="newCluster"></object-editor>
+                </mat-tab>
+            </mat-tab-group>
+            
+            
+        </div>
+    </div>
+
+    <div mat-dialog-actions fxLayoutAlign="end center"> 
+        <mat-spinner 
+                *ngIf="creating"
+                color="accent"
+                style="margin-right:16px;"
+                [diameter]="20" 
+                [strokeWidth]="3" 
+                matTooltip="Initiating provisioning in Azure" 
+                [matTooltipPosition]="'above'"></mat-spinner> 
+        <button 
+            color="accent" mat-raised-button (click)="createNew()" 
+            [disabled]="!createForm.form.valid || creating">Create New</button>
+        <button 
+            color="" mat-raised-button (click)="dialogRef.close()" 
+            [disabled]="creating">Cancel</button>
+    </div>
+</form>

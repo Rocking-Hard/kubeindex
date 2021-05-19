@@ -1,0 +1,63 @@
+<div class="cluster" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="clusterName" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
+            <div class="clusterName">{{cluster.name}}</div>
+            <div class="clusterOrigin">{{ getClusterOrigin(cluster) }}</div>
+        </div>
+        <div class="clusterLocation" fxFlex (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
+            {{cluster.external?.vendorLocation || 'NA'}}
+        </div>
+        <div class="nodes" fxFlex="grow" fxLayout="row">
+            <div 
+                class="node" [ngClass]="node | nodeConditionSummary"
+                *ngFor="let node of nodes;"
+                (click)="nodeDialog(node); $event.stopPropagation();"
+                matTooltip="Node {{node | nodeNameSummary}}" [matTooltipPosition]="'above'"
+            >
+            </div>
+        </div>
+        <div class="clusterVendorState" fxFlex 
+            fxLayout="row"
+            fxLayoutAlign="start space-between "
+            *ngIf="pollStates.includes(cluster.vendorState)"
+            (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
+            <mat-progress-spinner 
+                style="margin-right:16px;"
+                color="accent"
+                [mode]="progressbarType"
+                [value]="progressbarValue"
+                [diameter]="20" 
+                [strokeWidth]="3"
+                matTooltip="{{estimate && estimate['timeMessage'] || cluster.vendorState}}" 
+                [matTooltipPosition]="'above'"></mat-progress-spinner>  
+            {{ cluster.vendorState }}
+        </div>
+        <div class="status" fxFlex fxLayoutAlign="end center">
+            <mat-spinner 
+                *ngIf="cluster.status == 'fetching'" 
+                style="margin-right:3px;"
+                color="accent"
+                [diameter]="20" 
+                [strokeWidth]="3" 
+                matTooltip="Retrieving status of {{ cluster.name }}" 
+                [matTooltipPosition]="'above'"></mat-spinner>  
+                
+            <button mat-mini-fab color="warn" class="unavailable" 
+                *ngIf="cluster.status == 'unavailable'" 
+                aria-label="The cluster could not be fetched."
+                matTooltip="Not available, cluster could not be fetched." 
+                (click)="refreshCluster(); $event.stopPropagation();"
+                [matTooltipPosition]="'above'">
+                <mat-icon>priority_high</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" class="fetched" 
+                *ngIf="cluster.status == 'fetched'" 
+                aria-label="The cluster was fetched."
+                matTooltip="Fetched and fine." 
+                (click)="refreshCluster(); $event.stopPropagation();"
+                [matTooltipPosition]="'above'">
+                <mat-icon>done</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

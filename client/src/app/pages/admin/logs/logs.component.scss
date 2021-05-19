@@ -1,0 +1,29 @@
+@import "../../../../variables.scss";
+
+.logType{
+    min-width:170px;
+    font-size:11px;
+    color:rgb(167, 167, 167);
+}
+
+.logMessage{
+    min-width:600px;
+}
+
+.logDate{
+    font-size:14px;
+    color:rgb(161, 161, 161);
+    min-width:120px;
+}
+
+.extraDetails pre{
+    word-wrap: break-word;
+    background-color: rgb(51,51,51);
+    background: linear-gradient(183deg, rgba(51,51,51,1) 0%, rgb(87, 87, 87) 100%);
+    padding:8px;
+    border-radius:5px;
+    color:#EEE;       
+      
+    font-size:12px;
+    max-width:400px;
+}

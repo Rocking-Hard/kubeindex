@@ -1,0 +1,19 @@
+@import "../../../../variables.scss";
+
+.noClusters{
+    padding:50px;
+    text-align:center;
+    font-size:30px;
+    color: $sadColor;
+}
+
+.clusterList{
+
+    .clusterRow{
+        border-bottom:1px solid rgba(30, 36, 65, 0.12);
+        &:last-child{
+            border-bottom:none !important;
+        }
+    }
+}
+

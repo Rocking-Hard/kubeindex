@@ -1,0 +1,52 @@
+<div class="page" fxFlex="100" fxLayout="column">
+  <mat-toolbar color="accent">
+    <mat-toolbar-row fxLayoutAlign="space-between center" fxLayoutGap="8px">
+      <cluster-select></cluster-select>
+      <span fxFlex="grow"></span>
+      <search-filter 
+        *ngIf="namespaces && namespaces.length > 1"
+        [(filterText)]="namespaceService.filterText"
+      ></search-filter>
+      <button 
+        style="min-width:120px;" 
+        mat-raised-button 
+        (click)="createNamespaceDialog()" 
+        [disabled]="!(clusterService.currentClusterSubject | async )">+ Namespace</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar *ngIf="namespaceService.namespacesLoading" mode="indeterminate" style="margin:-4px 0 0 0;padding:0;" color="accent"></mat-progress-bar>
+  <div class="pageContent">
+      <div class="somethingIsMissing" *ngIf="!(clusterService.currentClusterSubject | async )">
+        Please select cluster
+      </div>
+      <div class="noNamespaces" 
+        *ngIf="(clusterService.currentClusterSubject | async ) && (!namespaces || namespaces.length == 0) && !namespaceService.namespacesLoading">
+        No namespaces yet, create one using the "+ Namespace" button.
+      </div>
+      <mat-accordion multi>
+        <mat-expansion-panel 
+          class="namespaceRow"
+          (opened)="showExtraDetails[namespace.metadata.uid] = true" 
+          (closed)="showExtraDetails[namespace.metadata.uid] = false"
+          *ngFor="let namespace of namespaceService.filteredNamespaces();trackBy:trackByUid;let i=index; last as isLast;" 
+          >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="namespaceNameContainer" fxLayout="column">
+                <div class="namespaceName">{{namespace.metadata.name}}</div>
+                <div class="namespaceDate">{{namespace.metadata.creationTimestamp | date }}</div>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <namespace-details 
+            [(loadEvents)]="showExtraDetails[namespace.metadata.uid]"
+            class="extraDetails" 
+            fxLayout="column" 
+            [namespace]="namespace"></namespace-details>          
+        </mat-expansion-panel>
+      </mat-accordion>
+
+  </div>
+</div>
+
