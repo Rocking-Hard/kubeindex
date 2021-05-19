@@ -17,6 +17,16 @@
   height: 100%;
 }
 
+.breadcrumbs{
+  .delimiter{
+    color:grey;
+  }
+  a{
+    text-decoration: none;
+    color:white;
+  }
+}
+
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;

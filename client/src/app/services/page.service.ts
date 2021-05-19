@@ -8,7 +8,10 @@ import { map, shareReplay }                 from 'rxjs/operators';
 import { LocalStorageService }          from './localstorage.service';
 import { AuthService }                  from './auth.service';
 import { ProfileService }               from './profile.service';
-import { ProjectsService }               from './projects.service';
+import { ProjectsService }              from './projects.service';
+import { NamespaceService }             from './namespace.service';
+import { ClusterService }               from './cluster.service';
+import { DeploymentService }            from './deployment.service';
 
 import * as _                           from 'lodash';
 import { LogService } from './log.service';
@@ -34,6 +37,9 @@ export class PageService {
         private router: Router,
         public profileService: ProfileService,
         public projectsService: ProjectsService,
+        public namespaceService: NamespaceService,
+        public clusterService: ClusterService,
+        public deploymentService: DeploymentService
     ) {
         this.sideNavOpen = localStorageService.getItem("settingsSession.sideNavOpen");
     }
@@ -90,12 +96,12 @@ export class PageService {
 
     generateProjectBreadcrumbs(pagename: string, cluster?: any, namespace?: any){
         this.wipeBreadcrumbs();
-        this.addBreadcrumb("Clusters", "", 0);
+        this.addBreadcrumb("Clusters", this.clusterService.getCurrentUri(), 0);
         if(cluster && cluster.name){
             this.addBreadcrumb(cluster.name, "", 1);
         }
         if(namespace && namespace.metadata && namespace.metadata.name){
-            this.addBreadcrumb("Namespaces", "", 2);
+            this.addBreadcrumb("Namespaces", this.namespaceService.getCurrentUri(), 2);
             this.addBreadcrumb(namespace.metadata.name, "", 3);
         }
         this.addBreadcrumb(pagename, "", 3);

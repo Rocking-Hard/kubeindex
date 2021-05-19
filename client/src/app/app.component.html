@@ -19,9 +19,11 @@
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
             <span *ngIf="pageService.breadcrumbs.length == 0">{{pageService.pageTitle}}</span>
-            <span *ngIf="pageService.breadcrumbs.length > 0">
+            <span *ngIf="pageService.breadcrumbs.length > 0" class="breadcrumbs">
                 <span *ngFor="let breadcrumb of pageService.getOrderedBreadcrumbs(); let first = first; let last = last;">
-                    {{breadcrumb.title}} <span *ngIf="!last">/</span>
+                    <a *ngIf="breadcrumb.url" [routerLink]="[breadcrumb.url]">{{breadcrumb.title}}</a>
+                    <span *ngIf="!breadcrumb.url">{{breadcrumb.title}}</span>
+                    <span class="delimiter" *ngIf="!last"> / </span>
                 </span>
             </span>
             <span fxFlex="fill"></span>
