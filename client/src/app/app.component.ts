@@ -22,7 +22,7 @@ import { StatusBarComponent }   from './components/status-bar/status-bar.compone
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  title = 'liftcrane';
+  title = 'KubeIndex';
 
   constructor(
       public authService: AuthService,

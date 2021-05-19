@@ -1,5 +1,5 @@
 {
-  "name": "liftcrane",
+  "name": "client",
   "version": "2020.06.01",
   "scripts": {
     "ng": "ng",
@@ -58,12 +58,8 @@
     "tslint": "^6.1.3",
     "typescript": "4.0.3"
   },
-  "description": "liftcrane",
+  "description": "The client for kubeindex",
   "main": "karma.conf.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Undrium/liftcrane"
-  },
   "keywords": [
     "client",
     "for",

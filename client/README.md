@@ -1,8 +1,8 @@
-# Liftcrane
+# KubeIndex Client
 
 Manage, clone and patch clusters in Kubernetes
 
-Liftcrane is a GUI using CloudGuard to safely manage a multi environment Kubernetes setup. It is aimed towards organizations which want to let development teams provision and handle their own clusters.
+The KubeIndex client is a GUI using CloudGuard to safely manage a multi environment Kubernetes setup. It is aimed towards organizations which want to let development teams provision and handle their own clusters.
 
 ## Kubernetes
 

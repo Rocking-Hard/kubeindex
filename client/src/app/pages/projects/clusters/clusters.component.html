@@ -9,7 +9,7 @@
       <button 
         style="min-width:100px;"
         *ngIf="pageService.guard(['admin']) | async" 
-        matTooltip="Add an already created cluster to Liftcrane" 
+        matTooltip="Add an already created cluster to KubeIndex" 
         [matTooltipPosition]="'above'"
         [matTooltipShowDelay]="500"
         mat-raised-button (click)="addExistingClusterDialog()">+ Existing</button>
