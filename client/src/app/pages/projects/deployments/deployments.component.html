@@ -13,7 +13,7 @@
       Please select cluster
     </div>
     <div class="somethingIsMissing" *ngIf="(clusterService.currentClusterSubject | async ) && 
-    (!showProgressbar && !(namespaceService.currentNamespaceSubject | async ))">
+    (!loadingDeployments && !(namespaceService.currentNamespaceSubject | async ))">
       <span *ngIf="(namespaceService.namespaces$ | async ) && (namespaceService.namespaces$ | async ).length == 0">Please create a Namespace before deploying</span>
       <span *ngIf="(namespaceService.namespaces$ | async ) && (namespaceService.namespaces$ | async ).length > 0">Please select namespace</span>
     </div>
@@ -35,7 +35,7 @@
     </mat-card>
     <mat-card *ngIf="
       (clusterService.currentClusterSubject | async ) && 
-      (clusterService.currentClusterSubject | async ).platform == 'OPENSHIFT4'">
+      (clusterService.currentClusterSubject | async )['platform'] == 'OPENSHIFT4'">
       <mat-card-content>
         <div class="somethingIsMissing" *ngIf="!(namespaceService.currentNamespaceSubject | async )">
           Please select namespace.

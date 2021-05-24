@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "liftcrane": {
+    "kubeindex": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,12 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/liftcrane",
+            "outputPath": "dist/kubeindex",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -72,18 +72,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "liftcrane:build"
+            "browserTarget": "kubeindex:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "liftcrane:build:production"
+              "browserTarget": "kubeindex:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "liftcrane:build"
+            "browserTarget": "kubeindex:build"
           }
         },
         "test": {
@@ -121,16 +121,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "liftcrane:serve"
+            "devServerTarget": "kubeindex:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "liftcrane:serve:production"
+              "devServerTarget": "kubeindex:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "liftcrane"
+  "defaultProject": "kubeindex"
 }

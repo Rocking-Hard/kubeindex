@@ -9,6 +9,8 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 })
 export class SupportDialogComponent {
 
+  public supportText: string = "";
+  
   constructor(public dialogRef: MatDialogRef<SupportDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
 
   }

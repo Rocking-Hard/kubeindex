@@ -47,7 +47,7 @@
                 *ngIf="cluster.status == 'unavailable'" 
                 aria-label="The cluster could not be fetched."
                 matTooltip="Not available, cluster could not be fetched." 
-                (click)="refreshCluster(); $event.stopPropagation();"
+                (click)="refreshClusterAndNodes(); $event.stopPropagation();"
                 [matTooltipPosition]="'above'">
                 <mat-icon>priority_high</mat-icon>
             </button>
@@ -55,7 +55,7 @@
                 *ngIf="cluster.status == 'fetched'" 
                 aria-label="The cluster was fetched."
                 matTooltip="Fetched and fine." 
-                (click)="refreshCluster(); $event.stopPropagation();"
+                (click)="refreshClusterAndNodes(); $event.stopPropagation();"
                 [matTooltipPosition]="'above'">
                 <mat-icon>done</mat-icon>
             </button>

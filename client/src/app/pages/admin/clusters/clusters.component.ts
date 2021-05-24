@@ -45,7 +45,7 @@ export class ClustersComponent {
         return this.clusters;
     }
     return this.clusters.filter(cluster => cluster.name.includes(this.filterText));
-}
+  }
 
   deleteCluster(clusterToDelete): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

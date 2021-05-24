@@ -1,4 +1,4 @@
-<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="createNew()" (change)="formChanged()">
+<form #createForm="ngForm" class="add-cluster-form" (onsubmit)="patch()">
     <h1 mat-dialog-title>
         Patch Kubernetes version of {{ data.cluster.name }}
     </h1>

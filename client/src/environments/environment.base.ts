@@ -1,7 +1,7 @@
-import * as npm from '../../package.json';
+import packageInfo from '../../package.json';
 
 export const environment = {
-    version: npm.version,
+    version: packageInfo.version,
     production: false,
     cloudguardUrl: "http://localhost:3000/api/v1",
     harborUrl: "",

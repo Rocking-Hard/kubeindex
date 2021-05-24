@@ -13,7 +13,7 @@ import { LogService } from './log.service';
 export class ProfileService {
 
   // Local track of user
-  private user: User = null;
+  public user: User = null;
   // Global track of user
   public user$: BehaviorSubject<User> = new BehaviorSubject<User>(this.user); 
   
