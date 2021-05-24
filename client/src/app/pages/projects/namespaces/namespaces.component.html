@@ -24,7 +24,7 @@
         *ngIf="(clusterService.currentClusterSubject | async ) && (!namespaces || namespaces.length == 0) && !namespaceService.namespacesLoading">
         No namespaces yet, create one using the "+ Namespace" button.
       </div>
-      <mat-accordion multi>
+      <mat-accordion multi *ngIf="(clusterService.currentClusterSubject | async )">
         <mat-expansion-panel 
           class="namespaceRow"
           (opened)="showExtraDetails[namespace.metadata.uid] = true" 

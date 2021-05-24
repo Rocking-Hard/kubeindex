@@ -42,7 +42,7 @@ export const adminRoutes: Routes = [
       },
       { 
         path: 'projects', 
-        data: { title: "Projects", faIcon: "fas fa-stream", },
+        data: { title: "Projects", faIcon: "fas fa-project-diagram", },
         component: ProjectsComponent,
         
       },

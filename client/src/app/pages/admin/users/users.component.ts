@@ -15,12 +15,15 @@ import { UsersService }                     from './users.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
+  public filterText = "";
+
   constructor(
     public pageService: PageService,
     public usersService: UsersService,
     public dialog: MatDialog
   ) { 
-    this.pageService.pageInit("Admin > Users");
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Users");
   }
 
   createUserDialog(): void {
@@ -30,6 +33,16 @@ export class UsersComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  public filteredUsers(){
+    if(!this.usersService.users || !this.usersService.users.length){
+        return []; 
+    }
+    if(this.filterText == ""){
+        return this.usersService.users;
+    }
+    return this.usersService.users.filter(user => user.username.includes(this.filterText));
   }
 
   confirmDelete(user): void {

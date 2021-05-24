@@ -20,7 +20,9 @@ export class StartComponent {
     public pageService: PageService,
     public cloudGuardDataSource: CloudGuardDataSource
   ) { 
-    this.pageService.pageInit("Admin > Start");
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Start");
+    
     this.cloudGuardDataSource.countProjects().subscribe((response:any) => {this.projectCount$ = response;});
     this.cloudGuardDataSource.countUsers().subscribe((response:any) => {this.userCount$ = response;});
     this.cloudGuardDataSource.countRegistries().subscribe((response:any) => {this.registryCount$ = response;});

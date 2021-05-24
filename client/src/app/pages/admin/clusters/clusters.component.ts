@@ -17,9 +17,9 @@ import { ClusterService } from 'src/app/services/cluster.service';
 })
 
 export class ClustersComponent {
-  public clusters: any[];
+  public clusters: any[] = [];
   displayedColumns: string[] = ['name', 'formatname', 'project.name', 'action'];
-
+  public filterText = "";
 
   constructor(
     public pageService: PageService,
@@ -28,11 +28,24 @@ export class ClustersComponent {
     public dialog: MatDialog,
     public router: Router
   ) { 
-    this.pageService.pageInit("Admin > Clusters");
+
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Clusters");
+
     this.cloudGuardDataSource.getClusters().subscribe((response:any) => {
         this.clusters = response;
     });
   }
+
+  public filteredClusters(){
+    if(!this.clusters || !this.clusters.length){
+        return []; 
+    }
+    if(this.filterText == ""){
+        return this.clusters;
+    }
+    return this.clusters.filter(cluster => cluster.name.includes(this.filterText));
+}
 
   deleteCluster(clusterToDelete): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

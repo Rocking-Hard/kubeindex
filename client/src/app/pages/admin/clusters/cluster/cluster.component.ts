@@ -27,11 +27,12 @@ export class ClusterComponent {
     private clusterService: ClusterService,
     public dialog: MatDialog,
     public logService: LogService,
-    private router: Router,
+    public router: Router,
   ) {
 
     this.platforms = this.clusterService.availablePlatforms;
-    this.pageService.pageInit("Admin > Clusters > ");
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Clusters", "/admin/clusters");
     this.pageService.startLoader("Fetching cluster ...");
     this.activatedRoute.params.subscribe((params: Params) => {
       var clusterFormatname = params['formatName'];
@@ -39,7 +40,7 @@ export class ClusterComponent {
         this.cloudGuardDataSource.getCluster(clusterFormatname).subscribe((response:any) => {
           this.cluster = response;
           this.clusterClone = JSON.parse(JSON.stringify(this.cluster));
-          this.pageService.pageInit("Admin > Clusters > " + this.cluster.name);
+          this.pageService.addBreadcrumb( this.cluster.name);
           this.pageService.stopLoader();
         });
       }

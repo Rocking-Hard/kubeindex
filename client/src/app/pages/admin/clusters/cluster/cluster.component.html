@@ -28,9 +28,17 @@
           <textarea name="token" [(ngModel)]="cluster.token" matInput></textarea>
         </mat-form-field>
         <div fxFlex="100" fxLayoutAlign="end" fxLayoutGap="8px">
+          <button color="accent" name="back" (click)="router.navigateByUrl('/admin/clusters')" mat-raised-button>back</button>
+          <span fxFlex="fill"></span>
           <button color="accent" name="save" (click)="save()" mat-raised-button>Save</button>
-          <button color="" name="reset" (click)="reset()" mat-raised-button [disabled]="!dirty()">Reset Changes</button>
-          <button color="error" name="reset" (click)="delete()" mat-raised-button>Delete</button>
+          <button 
+            style="min-width:130px;"
+            color="" name="reset" (click)="reset()" 
+            mat-raised-button [disabled]="!dirty()"
+            >Reset Changes</button>
+          <button 
+            style="min-width:80px;"
+            color="error" name="reset" (click)="delete()" mat-raised-button>Delete</button>
         </div>
 
     </form>

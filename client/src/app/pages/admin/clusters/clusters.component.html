@@ -1,6 +1,15 @@
 <div class="page">
+  <mat-toolbar color="accent">
+      <mat-toolbar-row fxLayoutAlign="start center">
+        <search-filter 
+          *ngIf="clusters.length > 1"
+          [(filterText)]="filterText"
+          style="padding-right:8px !important;"
+        ></search-filter>
+      </mat-toolbar-row>
+  </mat-toolbar>
     <div class="pageContent">
-      <table mat-table [dataSource]="clusters" fxFlex="100">
+      <table mat-table [dataSource]="filteredClusters()" fxFlex="100">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td style="cursor:pointer;" mat-cell *matCellDef="let cluster" [routerLink]="['/admin/clusters', cluster.formatName]"> 

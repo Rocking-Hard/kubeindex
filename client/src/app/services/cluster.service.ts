@@ -242,7 +242,7 @@ export class ClusterService {
         return this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
     }
 
-    public filteredClusters(){
+    public filteredProjectClusters(){
         if(!this.clusters || !this.clusters.length){
             return []; 
         }

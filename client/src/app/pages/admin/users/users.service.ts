@@ -10,6 +10,7 @@ import * as _                           from 'lodash';
 @Injectable({providedIn: 'root'})
 export class UsersService {
   
+    public users: any[] = [];
     // When needed update 
     public users$: ReplaySubject<Array<any>>; 
 
@@ -21,6 +22,7 @@ export class UsersService {
     public fetchUsers(){
         return this.cloudGuardDataSource.getUsers().subscribe((users: any[]) => {
             this.users$.next(users);
+            this.users = users;
         });
     }
 

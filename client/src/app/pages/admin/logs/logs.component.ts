@@ -25,7 +25,8 @@ export class LogsComponent {
     public dialog: MatDialog
 
   ) { 
-    this.pageService.pageInit("Admin > Logs");
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Logs");
     this.fetchLogs();
   }
 

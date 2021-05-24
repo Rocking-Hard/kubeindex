@@ -17,13 +17,16 @@ import { ProjectsService }        from '../../../services/projects.service';
 })
 export class ProjectsComponent {
   public showExtraDetails = {};
+  public filterText = "";
+
   constructor(
     public pageService: PageService,
     public projectsService: ProjectsService,
     public dialog: MatDialog
 
   ) { 
-    this.pageService.pageInit("Admin > Projects");
+    this.pageService.initBreadcrumbs("Admin", "/admin");
+    this.pageService.addBreadcrumb("Projects");
     this.projectsService.fetchProjects();
   }
 
@@ -33,6 +36,16 @@ export class ProjectsComponent {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  public filteredProjects(){
+    if(!this.projectsService.projects || !this.projectsService.projects.length){
+        return []; 
+    }
+    if(this.filterText == ""){
+        return this.projectsService.projects;
+    }
+    return this.projectsService.projects.filter(project => project.name.includes(this.filterText));
   }
 
   trackByFn(index, item) {

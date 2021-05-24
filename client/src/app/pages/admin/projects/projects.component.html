@@ -1,6 +1,10 @@
 <div class="page" fxFlex="100" fxLayout="column">
     <mat-toolbar color="accent">
         <mat-toolbar-row fxLayoutAlign="space-between center">
+            <search-filter 
+                *ngIf="this.projectsService.projects.length > 1"
+                [(filterText)]="filterText"
+            ></search-filter>
             <span></span>
             <button color="" mat-raised-button (click)="createProjectDialog()">+ Project</button>
         </mat-toolbar-row>
@@ -10,7 +14,7 @@
         <mat-accordion class="example-headers-align" multi>
             <mat-expansion-panel 
                 class=""
-                *ngFor="let project of projectsService.projects;let i=index; last as isLast; trackBy: trackByFn;" 
+                *ngFor="let project of filteredProjects();let i=index; last as isLast; trackBy: trackByFn;" 
             >
             <mat-expansion-panel-header (click)="showExtraDetails[project.formatName] = !showExtraDetails[project.formatName]">
                 <mat-panel-title >{{ project.name }}</mat-panel-title>

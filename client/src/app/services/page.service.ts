@@ -85,6 +85,11 @@ export class PageService {
         }));
     }
 
+    public initBreadcrumbs(title: string, url?: string, order?:number){
+        this.wipeBreadcrumbs();
+        this.addBreadcrumb(title, url, order);
+    }
+
     public wipeBreadcrumbs(){
         this.breadcrumbs = [];
     }
