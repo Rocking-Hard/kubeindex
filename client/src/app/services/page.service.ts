@@ -125,8 +125,8 @@ export class PageService {
         )
       }
 
-    public displayMessage(message: string){
-        this.logService.log(message, "message", {}, true);
+    public displayMessage(message: string, data?: any){
+        this.logService.log(message, "message", data, true);
     }
 
     public isHandset$: Observable<boolean> = 

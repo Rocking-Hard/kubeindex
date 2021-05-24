@@ -12,7 +12,6 @@ export class LogService {
 
     constructor(public localStorageService: LocalStorageService) {
       this.loadLogEntriesFromStorage();
-      
     }
 
     public loadLogEntriesFromStorage(){

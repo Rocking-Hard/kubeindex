@@ -36,9 +36,22 @@ export class AppComponent {
 
   supportDialog(){
     const dialogRef = this.dialog.open(SupportDialogComponent, {
-      width: '650px',
+      width: '650px', 
       data: {}
     });
+  }
+
+  hasUnreadNotifications(){
+    return this.logService.logEntries?.length > 0;
+  }
+
+  getNotificationStatus(){
+    if(this.logService.logEntries?.length > 1){
+      return this.logService.logEntries?.length + " notifications to read";
+    }else if(this.logService.logEntries?.length > 0){
+      return "One notification available";    
+    }
+    return "No notifications to read";
   }
 
   ngOnInit()

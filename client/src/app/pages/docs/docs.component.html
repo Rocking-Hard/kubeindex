@@ -1,6 +1,6 @@
-<div class="docHolder" ngFlex fxLayout="row" fxLayoutGap="20px">
-  <docs-menu ngFlex></docs-menu>
-  <mat-card>
+<div class="docMain" ngFlex fxLayout="row" fxLayoutGap="20px">
+  <docs-menu [activePath]="activePath" ngFlex></docs-menu>
+  <mat-card class="docHolder">
     <markdown [path]="markdownUrl" ngFlex></markdown>
   </mat-card>
 </div>

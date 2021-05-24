@@ -39,7 +39,7 @@
       </div>
 
       <!-- Dynamic menu part -->
-      <section style="padding-top:8px;">
+      <section style="padding-top:8px;" [ngClass]="{'notLoggedIn': !(authService.isLoggedIn() | async)}">
         <div *ngFor="let menuItem of menuItems; let first = first">
           <mat-divider *ngIf="menuItem.path == 'admin' && profileService.isAdmin()"></mat-divider>
           <a *ngIf="(!menuItem.settings.expectedUserType || profileService.isUserType(menuItem.settings.expectedUserType))" 

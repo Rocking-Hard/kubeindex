@@ -54,7 +54,7 @@ export class PatchClusterDialogComponent {
                 cluster.status = "fetched";
                 this.clusterService.upsertLocalClusterList(cluster);
                 this.dialogRef.close();
-                this.pageService.displayMessage("Patching " + this.data.cluster.name + " ...");
+                this.pageService.displayMessage("Patching " + this.data.cluster.name + " ...", this.data);
             },
             err => {
                 this.logService.handleError(err);

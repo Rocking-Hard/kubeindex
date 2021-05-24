@@ -36,14 +36,24 @@
             matTooltip="{{ pageService.whatIsLoading }}" 
             [matTooltipPosition]="'above'">
             </mat-spinner>
-            <a [routerLink]="['/logs']" mat-icon-button> 
-                <mat-icon aria-label="Side nav toggle icon">notifications</mat-icon>
+            <a 
+                [routerLink]="['/logs']" 
+                *ngIf="(authService.isLoggedIn() | async) || hasUnreadNotifications()"
+                mat-icon-button
+                matTooltip="{{ getNotificationStatus() }}" 
+                [matTooltipPosition]="'above'"
+                > 
+                <mat-icon 
+                    aria-label="Side nav toggle icon" 
+                    [class.hasUnreadNotifications]="hasUnreadNotifications()"
+                >notifications</mat-icon>
             </a>
             <button
                 type="button"
                 aria-label="Ask for support"
                 mat-icon-button
                 (click)="supportDialog()"
+                *ngIf="(authService.isLoggedIn() | async)"
                 >
                 <mat-icon aria-label="Side nav toggle icon">chat</mat-icon>
             </button>

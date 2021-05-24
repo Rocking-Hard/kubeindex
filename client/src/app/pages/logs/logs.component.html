@@ -1,11 +1,19 @@
 <div class="page" fxFlex="100" fxLayout="column">
   <mat-toolbar color="accent">
       <mat-toolbar-row fxLayoutAlign="end center">
-          <button color="error" name="delete" (click)="delete()" mat-raised-button>Delete All Logs</button>
+          <button 
+            mat-flat-button  
+            name="delete" 
+            (click)="delete()">Delete All Logs</button>
       </mat-toolbar-row>
   </mat-toolbar>
   <mat-progress-bar *ngIf="showProgressbar" mode="indeterminate"></mat-progress-bar>
   <div class="pageContent">
+      <mat-card style="margin-bottom:16px;">
+        <mat-card-title style="font-size:15px;">
+            These log entries are client session based meaning they only exist as long as the client is alive (or till logged out). 
+        </mat-card-title>
+      </mat-card>
       <mat-accordion class="example-headers-align" multi>
           <mat-expansion-panel 
               class=""
@@ -24,6 +32,9 @@
           </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <div class="somethingIsMissing" *ngIf="getLogEntries().length == 0">
+      No log entries yet
+    </div>
   </div>
 </div>
 

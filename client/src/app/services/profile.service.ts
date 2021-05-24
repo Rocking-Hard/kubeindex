@@ -7,6 +7,7 @@ import { User, UserAdapter }            from '../shared/models/user.model';
 import { LocalStorageService }          from './localstorage.service';
 
 import * as _                           from 'lodash';
+import { LogService } from './log.service';
 
 @Injectable({providedIn: 'root'})
 export class ProfileService {
@@ -18,6 +19,7 @@ export class ProfileService {
   
   constructor(
     private userAdapter: UserAdapter, 
+    private logService: LogService,
     private localStorageService: LocalStorageService
   ) {
       var localUser = localStorageService.getItem('user');
@@ -60,6 +62,7 @@ export class ProfileService {
     this.user = null
     this.localStorageService.clear();
     this.user$.next(this.user);
+    this.logService.removeAll();
   }
 
   public getUser(){
