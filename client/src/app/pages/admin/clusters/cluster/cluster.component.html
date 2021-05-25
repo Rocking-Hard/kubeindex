@@ -1,33 +1,97 @@
 <div class="page">
     <div class="pageContent" *ngIf="cluster">
       <form class="update-cluster-form" fxLayout="column">
-        <mat-form-field fxFlex="100">
-            <mat-label>Name</mat-label>
-            <input name="name" [(ngModel)]="cluster.name" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-          <mat-label>Description</mat-label>
-          <input name="description" [(ngModel)]="cluster.internal.description" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-          <mat-label>Comment</mat-label>
-          <input name="comment" [(ngModel)]="cluster.internal.comment" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-            <mat-label>ApiServer</mat-label>
-            <input name="apiserver" [(ngModel)]="cluster.apiServer" matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-          <mat-label>Platform</mat-label>
-          <mat-select [(ngModel)]="cluster.platform" name="platform">
-            <mat-option *ngFor="let platform of platforms" [value]="platform.value">{{platform.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field fxFlex="100">
-          <mat-label>Token</mat-label>
-          <textarea name="token" [(ngModel)]="cluster.token" matInput></textarea>
-        </mat-form-field>
-        <div fxFlex="100" fxLayoutAlign="end" fxLayoutGap="8px">
+        <mat-card>
+          <mat-tab-group dynamicHeight color="accent" backgroundColor="">
+            <mat-tab label="Overview" >
+              <div fxLayout="column" style="margin-top:16px;max-width:800px;">
+                <mat-form-field fxFlex="100">
+                  <mat-label>Name</mat-label>
+                  <input name="name" [(ngModel)]="cluster.name" matInput>
+                </mat-form-field>
+
+                <div fxLayoutAlign="row" fxFlex="100" fxLayoutGap="16px">
+                  <mat-form-field fxFlex="50">
+                    <mat-label>Description</mat-label>
+                    <input name="description" [(ngModel)]="cluster.internal.description" matInput>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                    <mat-label>Comment</mat-label>
+                    <input name="comment" [(ngModel)]="cluster.internal.comment" matInput>
+                  </mat-form-field>
+                </div>
+              
+                <mat-form-field fxFlex="100">
+                    <mat-label>ApiServer</mat-label>
+                    <input name="apiserver" [(ngModel)]="cluster.apiServer" matInput>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                  <mat-label>Platform</mat-label>
+                  <mat-select [(ngModel)]="cluster.platform" name="platform">
+                    <mat-option *ngFor="let platform of platforms" [value]="platform.value">{{platform.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                  <mat-label>Token</mat-label>
+                  <textarea name="token" [(ngModel)]="cluster.token" matInput></textarea>
+                </mat-form-field>
+
+                <div fxLayoutAlign="row" fxFlex="100" fxLayoutGap="16px">
+                  <mat-form-field fxFlex="50">
+                    <mat-label>Certificate data</mat-label>
+                    <textarea name="certData" [(ngModel)]="cluster.certData" matInput></textarea>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="50">
+                      <mat-label>Key data</mat-label>
+                      <textarea name="keyData" [(ngModel)]="cluster.keyData" matInput></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="Project restrictions">
+              <div fxLayout="column" style="margin:26px 0 16px 0;max-width:800px;" fxLayoutGap="16px">
+                  <mat-slide-toggle [checked]="true">
+                      Project admin can delete cluster without Ops
+                  </mat-slide-toggle>
+                  <div class="permissionExplain">
+                    This will let the project admins delete the cluster. If turned off
+                    the cluster will be flagged for deletion instead and the ops will take the action.
+                  </div>
+                  <mat-slide-toggle [checked]="true">
+                      Patch cluster without Ops
+                  </mat-slide-toggle>
+                  <div class="permissionExplain">
+                    This will let the project admins patch the cluster. If turned off
+                    the cluster will be flagged for patching and the ops will take the action.
+                  </div>
+                  <mat-slide-toggle [checked]="true">
+                    Create and delete namespaces without Ops
+                  </mat-slide-toggle>
+                  <div class="permissionExplain">
+                    Lets the project users create and manage their namespaces, otherwise this will be added as a versionized request
+                    towards the Ops.
+                  </div>
+                  <mat-slide-toggle [checked]="true">
+                    Expose Kubernetes Dashboard
+                  </mat-slide-toggle>
+                  <div class="permissionExplain">
+                    Gives a link to the Kubernetes Dashboard.
+                  </div>
+                  <mat-slide-toggle [checked]="true">
+                    Expose Kube-config
+                  </mat-slide-toggle>
+                  <div class="permissionExplain">
+                    Provides the project users with the kube-config which can then be used in other services and applications.
+                  </div>
+              </div>
+            </mat-tab>
+
+          </mat-tab-group>
+        </mat-card>
+       
+        <div fxFlex="100" fxLayoutAlign="end" fxLayoutGap="8px" style="margin-top:16px;">
           <button color="accent" name="back" (click)="router.navigateByUrl('/admin/clusters')" mat-raised-button>back</button>
           <span fxFlex="fill"></span>
           <button color="accent" name="save" (click)="save()" mat-raised-button>Save</button>
@@ -43,5 +107,5 @@
 
     </form>
             
-    </div>
+  </div>
 </div>

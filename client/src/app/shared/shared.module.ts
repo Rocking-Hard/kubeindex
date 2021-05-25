@@ -49,6 +49,7 @@ import { MatRadioModule }                           from '@angular/material/radi
 import { MatSelectModule }                          from '@angular/material/select';
 import { MatSidenavModule }                         from '@angular/material/sidenav';
 import { MatProgressSpinnerModule }                 from '@angular/material/progress-spinner';
+import { MatSlideToggleModule }                     from '@angular/material/slide-toggle';
 import { MatSortModule }                            from '@angular/material/sort';
 import { MatSnackBarModule }                        from '@angular/material/snack-bar';
 import { MatTabsModule }                            from '@angular/material/tabs';
@@ -79,6 +80,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     MatIconModule, 
     MatSidenavModule, 
     MatSelectModule, 
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatListModule,
     MatTableModule,
@@ -134,6 +136,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
     MatToolbarModule, 
     MatIconModule, 
     MatSidenavModule, 
+    MatSlideToggleModule,
     MatListModule,
     MatTableModule,
     MatProgressSpinnerModule,

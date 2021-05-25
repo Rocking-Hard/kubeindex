@@ -70,7 +70,7 @@ mat-dialog-container{
 
 main{
   display: flex;
-  height: 100vh;  
+  min-height: 90vh;  
   flex: 1 1 auto;
   place-content: stretch flex-start;
   align-items: stretch;

@@ -113,7 +113,7 @@ const routes: Routes = [
   // Just used for navigation-menu, not actual routing
   { 
     path: 'admin/projects', 
-    data: { expectedUserType: 'admin', faIcon: "fas fa-stream", title: "Projects", parent: "admin" },
+    data: { expectedUserType: 'admin', faIcon: "fas fa-project-diagram", title: "Projects", parent: "admin" },
     canActivate: [TypeGuard],
     children:[]
   },
