@@ -30,6 +30,7 @@ export class ProjectSelectComponent {
           return;
         }
         this.projectRoles = user.projectRoles;
+        this.projectRoles.sort((a, b) => a.project?.name?.localeCompare(b.project?.name));
         this.SetCurrentByPreference(this.projectRoles);
       });
     }
@@ -58,6 +59,9 @@ export class ProjectSelectComponent {
       this.router.navigate(['/projects/'+project.formatName+'/clusters']);
       this.preferenceService.addOrUpdatePreference("preferedProject", project.name);
       await this.projectsService.setCurrentProject(project);
+      // todo fix this ugly hack and do it in the observer instead
+      this.namespaceService.setNamespaces([]);
+      this.namespaceService.setCurrentNamespace(null);
     }
 
 }

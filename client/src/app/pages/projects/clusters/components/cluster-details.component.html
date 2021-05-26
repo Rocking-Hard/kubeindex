@@ -71,6 +71,7 @@
         <span></span>
         <button 
             color="error" 
+            *ngIf="pageService.guard(['admin']) | async"
             (click)="deleteCluster(cluster)"
             [disabled]="!this.clusterService.canDelete(cluster)"
             mat-raised-button aria-label="Delete the cluster" 
@@ -79,7 +80,7 @@
             <mat-icon>delete</mat-icon>
         </button>
         <button 
-            *ngIf="cluster.vendor == 'AZURE'"
+            *ngIf="cluster.vendor == 'AZURE' && pageService.guard(['admin']) | async"
             color="error" 
             (click)="deleteClusterInAzure(cluster)"
             [disabled]="!this.clusterService.canDelete(cluster)"
@@ -89,7 +90,7 @@
             <mat-icon>delete</mat-icon>
         </button>
         <button 
-            *ngIf="cluster.vendor == 'AZURE'"
+            *ngIf="cluster.vendor == 'AZURE' && pageService.guard(['admin']) | async"
             (click)="patchClusterInAzureDialog(cluster)"
             [disabled]="!this.clusterService.canPatch(cluster)"
             mat-raised-button aria-label="Patch (upgrade) the clusters Kubernetes version" 

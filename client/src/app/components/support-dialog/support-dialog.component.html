@@ -1,6 +1,15 @@
 <h1 mat-dialog-title>Cloud Team Assistance</h1>
-<div mat-dialog-content class="supportHolder">
+<div mat-dialog-content class="supportHolder" fxLayout="column">
+    <mat-form-field fxFlex="100">
+        <mat-label style="font-size:12px;">Reference</mat-label>
+        <input name="reference" value="{{router.url}}" matInput [disabled]="true" style="font-size:12px;">
+    </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <mat-label>Subject</mat-label>
+        <input name="subject" [(ngModel)]="supportSubject" matInput>
+    </mat-form-field>
     <textarea 
+    style="margin-top:16px;"
     fxFlex
     class="supportDescription"
     [(ngModel)]="supportText"
@@ -11,6 +20,6 @@
     
 </div>
 <div mat-dialog-actions fxLayoutAlign="end">
-    <button color="accent" mat-raised-button [mat-dialog-close]="data.object">Send</button>
+    <button color="accent" mat-raised-button [mat-dialog-close]="data.object" [disabled]="supportText.length == 0">Send</button>
     <button color="" mat-raised-button [mat-dialog-close]="false">Cancel</button>
 </div>

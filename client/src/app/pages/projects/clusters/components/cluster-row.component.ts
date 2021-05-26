@@ -125,9 +125,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
       var elapsedSeconds = Math.abs((currentTime.getTime() - startTime.getTime()) / 1000);
       var timeLeft = this.estimate.averageTime - elapsedSeconds;
       timeLeft = Math.round(timeLeft > 0 ? timeLeft : 0);
-      this.estimate['timeMessage'] = "Estimating it to take " + timeLeft + " seconds";
-      console.log(this.estimate['timeMessage']);
-
+      this.estimate['timeMessage'] = "Estimating it to take " + Math.round(this.estimate.averageTime) + " seconds in total.";
       this.progressbarValue = 100;
       this.progressStart = this.progressbarValue - (elapsedSeconds / this.estimate.averageTime) * 100
       this.startTimer(timeLeft);
@@ -146,7 +144,6 @@ export class ClusterRowComponent implements OnInit, OnChanges {
         sub.unsubscribe();
         return;
       }
-
       this.progressbarValue = this.progressStart - tick * 100 / limit;
       this.progressbarTick = tick;
       

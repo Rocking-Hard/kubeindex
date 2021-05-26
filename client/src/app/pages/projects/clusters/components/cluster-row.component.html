@@ -25,7 +25,7 @@
             <mat-progress-spinner 
                 style="margin-right:16px;"
                 color="accent"
-                [mode]="progressbarType"
+                [mode]="progressbarValue < 1 ? 'indeterminate' : progressbarType"
                 [value]="progressbarValue"
                 [diameter]="20" 
                 [strokeWidth]="3"

@@ -86,7 +86,7 @@ const routes: Routes = [
   { 
     path: 'admin', 
     loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule), 
-    data: { expectedUserType: 'admin', faIcon: "fas fa-ambulance", title: "Admin"}, 
+    data: { expectedUserType: 'admin', faIcon: "fas fa-chess-rook", title: "Admin"}, 
     canActivate: [TypeGuard],
   },
   // Just used for navigation-menu, not actual routing

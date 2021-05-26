@@ -55,8 +55,8 @@ export class ClusterDetailsComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        this.closeAccordion();
         this.clusterService.deleteCluster(cluster).subscribe(response => {
-          this.closeAccordion();
           this.pageService.displayMessage(`Cluster ${cluster.name} deleted.`);
         });
       }
@@ -73,8 +73,8 @@ export class ClusterDetailsComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        this.closeAccordion();
         this.clusterService.deleteAKSCluster(cluster).subscribe(result => {
-          this.closeAccordion();
           this.pageService.displayMessage("Cluster deletion started of " + cluster.name);
         });
       }

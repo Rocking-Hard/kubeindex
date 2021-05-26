@@ -60,7 +60,7 @@ export class AppComponent {
     messageObservable.subscribe((message) => {
       this.snackBar.openFromComponent(StatusBarComponent, {
         data: message,
-        duration: 5000,
+        duration: message.length > 60 ? 10000 : 5000,
       });
     });
   }

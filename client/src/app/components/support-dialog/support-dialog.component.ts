@@ -1,5 +1,6 @@
-import { Component, Inject }    from '@angular/core';
+import { Component, Inject }                from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
+import { Router }                           from '@angular/router';
 
 
 @Component({
@@ -9,9 +10,14 @@ import { MatDialogRef, MAT_DIALOG_DATA }    from '@angular/material/dialog';
 })
 export class SupportDialogComponent {
 
+  public supportSubject: string = "";
   public supportText: string = "";
   
-  constructor(public dialogRef: MatDialogRef<SupportDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    public dialogRef: MatDialogRef<SupportDialogComponent>, 
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
 
   }
 }

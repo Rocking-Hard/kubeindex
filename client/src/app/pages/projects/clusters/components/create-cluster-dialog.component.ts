@@ -55,6 +55,15 @@ export class CreateClusterDialogComponent {
                         podCidr: "10.195.0.0/16",
                         loadBalancerSku: "basic"
                     },
+                    addonProfiles: {
+                        //"ingressApplicationGateway": {
+                        //    "enabled": true,
+                        //   "config":{
+                        //        "applicationGatewayName": "kubindexGW",
+                        //        "subnetPrefix": "10.1.0.0/16"
+                        //    }
+                        //}
+                    },
                     agentPoolProfiles: [{
                         vmSize: "Standard_D2_v2",
                         count: 2,

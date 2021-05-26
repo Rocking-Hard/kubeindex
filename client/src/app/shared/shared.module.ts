@@ -58,11 +58,14 @@ import { MatTooltipModule }                         from '@angular/material/tool
 
 import { AceEditorModule }                          from '@postfinance/ngx-ace-editor-wrapper';
 
+import { MarkdownModule }                           from 'ngx-markdown';
+
                                                   
 
 @NgModule({
   imports:      [
     AceEditorModule,
+    MarkdownModule.forRoot(),
     FormsModule,
     CommonModule,
     FlexLayoutModule,
@@ -108,6 +111,7 @@ import { AceEditorModule }                          from '@postfinance/ngx-ace-e
   ],
   exports: [
     AceEditorModule,
+    MarkdownModule,
     ClusterSelectComponent,
     ProjectSelectComponent,
     NamespaceSelectComponent,

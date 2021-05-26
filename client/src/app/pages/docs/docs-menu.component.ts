@@ -25,7 +25,6 @@ export class DocsMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.activePath);
     this.menuItems.map(item => {
       if(item.children){
         var childrenActive = false;

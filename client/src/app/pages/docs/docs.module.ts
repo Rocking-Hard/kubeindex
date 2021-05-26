@@ -3,7 +3,7 @@ import { Routes, RouterModule }     from '@angular/router';
 import { DocsComponent } 		        from './docs.component';
 import { DocsMenuComponent } 		    from './docs-menu.component';
 import { SharedModule }             from '../../shared/shared.module';
-import { NgxMdModule  }             from 'ngx-md';
+
 
 const routes: Routes = [{
   path: '',
@@ -13,8 +13,7 @@ const routes: Routes = [{
 @NgModule({
   imports:      [
   	SharedModule,
-    RouterModule.forChild(routes),
-    NgxMdModule.forRoot()
+    RouterModule.forChild(routes)
   ],
   declarations: [ DocsComponent, DocsMenuComponent ],
   exports:      [ RouterModule ],
