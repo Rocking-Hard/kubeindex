@@ -32,9 +32,14 @@
               "src/app/pages/docs/docs"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/marked/lib/marked.js"]
+            "scripts": [
+              "node_modules/yamljs/dist/yaml.min.js",
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/marked/lib/marked.js"
+            ]
           },
           "configurations": {
             "production": {
