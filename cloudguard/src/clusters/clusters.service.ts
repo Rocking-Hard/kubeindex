@@ -18,6 +18,7 @@ import { User } from '../users/user.entity';
 import { ClusterGetDto } from './cluster-get.dto';
 import { ClusterPostDto } from './cluster-post.dto';
 import { ClusterPatchDto } from './cluster-patch.dto';
+import { debug } from 'console';
 
 @Injectable()
 export class ClustersService {
@@ -90,8 +91,13 @@ export class ClustersService {
         await this.updateVendorProgress(cluster);
       }else{
         var hasKubernetesAccess = await this.kubernetesService.hasKubernetesAccess(cluster);
-        return hasKubernetesAccess ? cluster.vendorState : "unknown";
+        // If we have access, then the cluster is actually running 
+        if(hasKubernetesAccess){
+          cluster['vendorState'] = "running";
+          await this.update(cluster);
+        }       
       }
+      this.logger.debug(`${cluster.name} appears to be ${cluster.vendorState}`);
       return cluster.vendorState;
     }
 
