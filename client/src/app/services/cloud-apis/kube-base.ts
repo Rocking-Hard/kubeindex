@@ -304,7 +304,7 @@ export class KubeBase {
 
   public getUrlAndHeaders(specificCluster?: any, type?: string): Observable<any> {
     var cluster = specificCluster || this.clusterService.currentCluster;
-    return this.clusterService.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map((fullCluster: any) => {
+    return this.clusterService.getFullClusterWithToken(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map((fullCluster: any) => {
       if (!fullCluster) {
         throw new Error('Could not get cluster ' + cluster.name);
       }

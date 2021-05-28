@@ -37,7 +37,7 @@ export default () => ({
     },
     cluster: {
         // All states a cluster can have
-        validStates: ["created", "creating", "patching", "deleting", "unknown"],
+        validStates: ["created", "creating", "patching", "deleting", "unknown", "running"],
         // States which requires polling from vendor
         progressStates: ["deleting", "patching", "creating", "unknown"]
     },

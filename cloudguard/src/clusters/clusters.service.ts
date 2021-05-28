@@ -83,6 +83,18 @@ export class ClustersService {
       return cluster;
     }
 
+    async getClusterStatus(formatName: string) {
+      let cluster = await this.clusterRepository.findOne({formatName: formatName});
+      
+      if(this.hasVendorProgress(cluster)){
+        await this.updateVendorProgress(cluster);
+      }else{
+        var hasKubernetesAccess = await this.kubernetesService.hasKubernetesAccess(cluster);
+        return hasKubernetesAccess ? cluster.vendorState : "unknown";
+      }
+      return cluster.vendorState;
+    }
+
     async getUpgradeProfile(name: string) {
       return await this.azureDataSource.getUpgradeProfile(name);
     }
@@ -100,7 +112,7 @@ export class ClustersService {
       var azureCluster = await this.azureDataSource.getCluster(cluster.name);
       var previousState = cluster.vendorState;
       var currentState = this.normalizeClusterState(cluster, azureCluster?.properties?.provisioningState);
-
+      
       // A create was done
       if(previousState == "creating" && currentState != previousState){
         // Really important to make sure the cluster has standards configurated for the enterprise
@@ -122,7 +134,7 @@ export class ClustersService {
         }
         this.logger.logClusterPatched(cluster);
       }
-
+      
       return azureCluster;
     }
 
@@ -170,9 +182,9 @@ export class ClustersService {
       if(deletingVersions.includes(stateToNormalize.toLowerCase())){
         return "deleting";
       }
-      var createdVersions = ["succeeded", "created"];
-      if(createdVersions.includes(stateToNormalize.toLowerCase())){
-        return "created";
+      var runningVersions = ["succeeded", "created"];
+      if(runningVersions.includes(stateToNormalize.toLowerCase())){
+        return "running";
       }
       this.logger.debug(`Cluster ${cluster.name} has a weird state (${stateToNormalize}) at its vendor.`);
       return "unknown";
@@ -225,7 +237,7 @@ export class ClustersService {
       
       // Cluster can be in a state where we need to ask the vendor if something has changed
       if(this.hasVendorProgress(cluster)){
-        await this.getAKSCluster(cluster);
+        await this.updateVendorProgress(cluster);
       }
       
       if(await this.kubernetesService.hasKubernetesAccess(cluster)){
@@ -235,6 +247,13 @@ export class ClustersService {
       }
       
       return clusterGetDto;
+    }
+
+    public async updateVendorProgress(cluster: any){
+      if(cluster.vendor == "AZURE"){
+        await this.getAKSCluster(cluster);
+      }
+      return true;
     }
 
     public hasVendorProgress(cluster: any): boolean{

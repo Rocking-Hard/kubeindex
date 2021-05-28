@@ -19,7 +19,7 @@ export class LoggerService extends Logger {
 
   handleKubernetesError(error: any){
     if(error.code && error.code == 'ETIMEDOUT' && error.address){
-      this.logger.error("Can't reach cluster " + error.address, error.stack);
+      super.error("Can't reach cluster " + error.address, error.stack);
     }else if(error.response && error.response.body && error.response.body.code && error.response.body.message){
       var code = error.response.body.code;
       if(code != 404){

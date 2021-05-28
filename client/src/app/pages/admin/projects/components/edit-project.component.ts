@@ -33,9 +33,8 @@ export class EditProjectComponent {
 
     ngOnInit() {
         this.clusterService.clusters$.subscribe(clusters => {
-            
             for (var cluster of clusters){
-                this.clusterService.getFullCluster(cluster.formatName, this.project.formatName);
+                this.clusterService.getFullClusterWithToken(cluster.formatName, this.project.formatName);
             } 
          });
     }

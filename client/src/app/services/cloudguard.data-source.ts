@@ -38,6 +38,14 @@ export class CloudGuardDataSource {
     return this.get("/clusters");
   }
 
+  public getClusterStatus(clusterFormatName: string): any{
+    return this.get("/clusters/" + clusterFormatName+ "/status").pipe(share());
+  }
+
+  public getProjectsClusterStatus(projectFormatName: string, clusterFormatName: string): any{
+    return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName+ "/status").pipe(share());
+  }
+
   public getProjectsCluster(projectFormatName: string, clusterFormatName: string): any{
     return this.get("/projects/"+projectFormatName+"/clusters/" + clusterFormatName).pipe(map((cluster: any) =>{
       // This is always packaged as base64 till the end client

@@ -20,18 +20,8 @@
         <div class="clusterVendorState" fxFlex 
             fxLayout="row"
             fxLayoutAlign="start space-between "
-            *ngIf="this.clusterService.needsPolling(cluster)"
             (click)="cluster.showExtraDetails = !cluster.showExtraDetails">
-            <mat-progress-spinner 
-                style="margin-right:16px;"
-                color="accent"
-                [mode]="progressbarValue < 1 ? 'indeterminate' : progressbarType"
-                [value]="progressbarValue"
-                [diameter]="20" 
-                [strokeWidth]="3"
-                matTooltip="{{estimate && estimate['timeMessage'] || cluster.vendorState}}" 
-                [matTooltipPosition]="'above'"></mat-progress-spinner>  
-            {{ cluster.vendorState }}
+            <cluster-status [cluster]="cluster"></cluster-status>
         </div>
         <div class="status" fxFlex fxLayoutAlign="end center">
             <mat-spinner 

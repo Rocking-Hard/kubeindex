@@ -1,14 +1,14 @@
-import { Component }                        from '@angular/core';
+import { Component, ViewChild }             from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { MatDialog }                        from '@angular/material/dialog';
+import { MatSort }                          from '@angular/material/sort';
+import {MatTableDataSource}                 from '@angular/material/table';
 
 import { ConfirmDialogComponent }     from '../../../components/confirm-dialog/confirm-dialog.component';
 
 import { PageService }        from '../../../services/page.service';
 import { CloudGuardDataSource }        from '../../../services/cloudguard.data-source';
 import { ClusterService } from 'src/app/services/cluster.service';
-
-
 
 @Component({
   selector: 'app-admin-clusters',
@@ -17,8 +17,10 @@ import { ClusterService } from 'src/app/services/cluster.service';
 })
 
 export class ClustersComponent {
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatSort) sort: MatSort;
   public clusters: any[] = [];
-  displayedColumns: string[] = ['name', 'formatname', 'project.name', 'action'];
+  displayedColumns: string[] = ['name', 'project.name', 'vendorState', 'action'];
   public filterText = "";
 
   constructor(
@@ -32,20 +34,24 @@ export class ClustersComponent {
     this.pageService.initBreadcrumbs("Admin", "/admin");
     this.pageService.addBreadcrumb("Clusters");
 
+    this.dataSource = new MatTableDataSource();
+
     this.cloudGuardDataSource.getClusters().subscribe((response:any) => {
-        this.clusters = response;
+      this.dataSource.data = response;
     });
+
   }
 
-  public filteredClusters(){
-    if(!this.clusters || !this.clusters.length){
-        return []; 
-    }
-    if(this.filterText == ""){
-        return this.clusters;
-    }
-    return this.clusters.filter(cluster => cluster.name.includes(this.filterText));
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    
   }
+
+  public filterTextChanged(event: Event) {
+    console.log("CHANGED");
+    this.dataSource.filter = this.filterText.trim().toLowerCase();
+  }
+
 
   deleteCluster(clusterToDelete): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

@@ -1,0 +1,13 @@
+<div  class="statusHolder" fxLayout="row">
+    <mat-progress-spinner 
+        *ngIf="clusterService.needsPolling(cluster)"
+        style="margin-right:16px;"
+        color="accent"
+        [mode]="progressbarValue < 1 ? 'indeterminate' : progressbarType"
+        [value]="progressbarValue"
+        [diameter]="20" 
+        [strokeWidth]="3"
+        matTooltip="{{estimate && estimate['timeMessage'] || cluster.vendorState}}" 
+        [matTooltipPosition]="'above'"></mat-progress-spinner>  
+    {{ cluster.vendorState || placeholder }}
+</div>

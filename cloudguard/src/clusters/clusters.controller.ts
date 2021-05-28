@@ -57,6 +57,13 @@ export class ClustersController {
     }
 
     @UseGuards(MustHaveJwtGuard)
+    @Get(':formatName/status')
+    async getStatus(@Param('formatName') formatName): Promise<any> {
+        let status = await this.clustersService.getClusterStatus(formatName);
+        return this.responseService.createResponse(status, "Status of cluster fetched.");
+    }
+
+    @UseGuards(MustHaveJwtGuard)
     @Patch(':formatName')
     async update(@Param('formatName') formatName, @Body() clusterPatchDto: ClusterPatchDto) {
         var result = await this.clustersService.updateByPatch(formatName, clusterPatchDto);

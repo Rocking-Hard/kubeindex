@@ -7,8 +7,6 @@ import {
 }                               from '@angular/core';
 import { MatDialog }            from '@angular/material/dialog';
 
-import { interval }             from 'rxjs';
-
 import { NodeDialogComponent }  from './node-dialog.component'
 
 import { LogService }           from '../../../../services/log.service';
@@ -30,14 +28,6 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   
   public nodes: Array<any> = [];
   public nodeEvents: any;
-  
-  // When cluster needs to be polled
-  public pollTimeout = null;
-  public estimate = null;
-  public progressbarType = "determinate";
-  public progressbarValue = 100;
-  public progressStart = 100;
-  public progressbarTick: number = 0;
 
   constructor(
     public clusterService: ClusterService,
@@ -59,33 +49,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     if(this.nodeEvents && this.nodeEvents['abortController']){
         this.nodeEvents['abortController'].abort();
     }
-    this.stopPollTimer();
-  }
 
-  async pollClusterState(){
-    
-    const self = this;
-    var projectFormatName = this.projectsService.currentProject.formatName;
-    var cluster = await this.clusterService.fetchClusterFromCloudguard(projectFormatName, this.cluster).toPromise();
-    
-    if(!this.estimate){
-      await this.getAndStartEstimation(cluster.vendorState);
-    }
-
-    if(!this.clusterService.needsPolling(cluster)){
-      this.stopPollTimer();
-      // One final refresh;
-      await this.refreshClusterAndNodes();
-      return;
-    }
-    return setTimeout(function(){
-      self.pollClusterState();
-    }, 7000);
-  }
-
-  async stopPollTimer(){
-    clearTimeout(this.pollTimeout);
-    this.pollTimeout = null;
   }
 
   async initNodes(cluster: any){
@@ -103,51 +67,6 @@ export class ClusterRowComponent implements OnInit, OnChanges {
     }catch(error){
       this.logService.handleError(error, false);
     }
-  }
-
-  /*
-  * TODO make this more compact
-  */
-  public async getAndStartEstimation(type?: string){
-    this.progressbarTick = 0;
-
-    if(!this.estimate && this.cluster?.formatName){
-      this.estimate = await this.clusterService.getEstimation(this.cluster, type).toPromise();
-
-      if(!this.estimate.averageTime){
-        this.estimate['timeMessage'] = "Can't estimate time for modification.";
-        this.progressbarType = "indeterminate";
-        return false;
-      }
-
-      var startTime = new Date(this.estimate.startTime);
-      var currentTime = new Date(this.estimate.currentTime);
-      var elapsedSeconds = Math.abs((currentTime.getTime() - startTime.getTime()) / 1000);
-      var timeLeft = this.estimate.averageTime - elapsedSeconds;
-      timeLeft = Math.round(timeLeft > 0 ? timeLeft : 0);
-      this.estimate['timeMessage'] = "Estimating it to take " + Math.round(this.estimate.averageTime) + " seconds in total.";
-      this.progressbarValue = 100;
-      this.progressStart = this.progressbarValue - (elapsedSeconds / this.estimate.averageTime) * 100
-      this.startTimer(timeLeft);
-      
-    }
-
-    return true;
-  }
-
-  startTimer(seconds: number) {
-    const limit = seconds * 5;
-    const timer$ = interval(200);
-
-    const sub = timer$.subscribe((tick) => {
-      if (!limit || this.progressbarTick >= limit) {
-        sub.unsubscribe();
-        return;
-      }
-      this.progressbarValue = this.progressStart - tick * 100 / limit;
-      this.progressbarTick = tick;
-      
-    });
   }
 
   async refreshClusterAndNodes(){
@@ -196,9 +115,7 @@ export class ClusterRowComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    if(this.clusterService.needsPolling(this.cluster) && !this.pollTimeout){
-      this.pollTimeout = this.pollClusterState();
-    }
+
   }
 
 }

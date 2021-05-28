@@ -34,7 +34,7 @@ export class Cluster {
     @Column({ default: "LOCAL" })
     vendor: string;
 
-    @Column({ default: "CREATED" })
+    @Column({ default: "created" })
     vendorState: string;
 
     @Column('jsonb', {nullable: true})

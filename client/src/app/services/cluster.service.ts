@@ -93,7 +93,7 @@ export class ClusterService {
         delete cluster.personalToken;
         delete cluster.status;
         cluster['status'] = 'fetching';
-        return this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).toPromise().then(cluster => {
+        return this.getFullClusterWithToken(cluster.formatName, this.projectsService.currentProject.formatName).toPromise().then(cluster => {
             if(this.currentCluster && this.currentCluster.formatName == cluster?.formatName){
                 this.setCurrentCluster(cluster);
             }
@@ -108,7 +108,7 @@ export class ClusterService {
     }
 
     public async setCurrentClusterByName(formatName: string){
-        this.getFullCluster(formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
+        this.getFullClusterWithToken(formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
             this.setCurrentCluster(cluster);
         })).pipe(take(1)).subscribe();
     }
@@ -130,7 +130,7 @@ export class ClusterService {
         
         // If a dirty cluster it also need to be fetched, do that afterwards
         if(dirty){
-            this.getFullCluster(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
+            this.getFullClusterWithToken(cluster.formatName, this.projectsService.currentProject.formatName).pipe(map(cluster => {
                 this.setCurrentCluster(cluster);
             })).pipe(take(1)).subscribe();
         }
@@ -187,7 +187,7 @@ export class ClusterService {
     /*
     * Get a cluster containing all the details about the cluster
     */
-    public getFullCluster(formatName, projectFormatName):Observable<any>{
+    public getFullClusterWithToken(formatName, projectFormatName):Observable<any>{
         // Since we do not know, wait on a cluster list
 
         let cluster = this.clusters.find(el => el.formatName === formatName);
@@ -212,7 +212,7 @@ export class ClusterService {
             
             if(!this.clusterFetch$[identifier] && projectFormatName) {
                 this.clusterFetch$[identifier] 
-                    = this.fetchClusterFromCloudguard(projectFormatName, cluster);
+                    = this.fetchProjectCluster(projectFormatName, cluster);
             }
             return this.clusterFetch$[identifier].pipe(
                 map((fetchedCluster: any)=>{
@@ -236,10 +236,18 @@ export class ClusterService {
         return of(cluster);          
     
         
-    } // End getFullCluster
+    } // End getFullClusterWithToken
 
-    public fetchClusterFromCloudguard(projectFormatName, cluster){
+    public fetchProjectCluster(projectFormatName, cluster){
         return this.cloudGuardDataSource.getProjectsCluster(projectFormatName, cluster.formatName);
+    }
+
+    public fetchProjectClusterStatus(projectFormatName, cluster){
+        return this.cloudGuardDataSource.getProjectsClusterStatus(projectFormatName, cluster.formatName);
+    }
+
+    public fetchClusterStatus(cluster){
+        return this.cloudGuardDataSource.getClusterStatus(cluster.formatName);
     }
 
     public filteredProjectClusters(){

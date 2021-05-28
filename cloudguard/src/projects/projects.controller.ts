@@ -71,6 +71,14 @@ export class ProjectsController{
     }
 
     @UseGuards(MustHaveJwtGuard, ProjectRolesGuard)
+    @Get(':projectFormatName/clusters/:clusterFormatName/status')
+    @ProjectRoles(['edit', 'view', 'admin'])
+    async getProjectClusterStatus(@Param('projectFormatName') projectFormatName, @Param('clusterFormatName') clusterFormatName, @User() user): Promise<any> {
+        let status = await this.clustersService.getClusterStatus(clusterFormatName);
+        return this.responseService.createResponse(status, "Status of project cluster fetched.");
+    }
+
+    @UseGuards(MustHaveJwtGuard, ProjectRolesGuard)
     @Get(':projectFormatName/clusters/:clusterFormatName')
     @ProjectRoles(['edit', 'view', 'admin'])
     async getProjectCluster(@Param('projectFormatName') projectFormatName, @Param('clusterFormatName') clusterFormatName, @User() user): Promise<any> {

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormControl }         from '@angular/
 import { LayoutModule }                             from '@angular/cdk/layout';
 
 import { ClusterSelectComponent }                   from '../components/cluster-select/cluster-select.component';
+import { ClusterStatusComponent }                   from '../components/cluster-status/cluster-status.component';
 import { ConfirmDialogComponent }                   from '../components/confirm-dialog/confirm-dialog.component';
 import { NamespaceSelectComponent }                 from '../components/namespace-select/namespace-select.component';
 import { ObjectEditorComponent }                    from '../components/object-editor/object-editor.component';
@@ -83,6 +84,7 @@ import { MarkdownModule }                           from 'ngx-markdown';
     MatIconModule, 
     MatSidenavModule, 
     MatSelectModule, 
+    MatSortModule,
     MatSlideToggleModule,
     MatSnackBarModule,
     MatListModule,
@@ -94,6 +96,7 @@ import { MarkdownModule }                           from 'ngx-markdown';
     ReactiveFormsModule
   ],
   declarations: [
+    ClusterStatusComponent,
     ClusterSelectComponent,
     ProjectSelectComponent,
     NamespaceSelectComponent,
@@ -112,6 +115,7 @@ import { MarkdownModule }                           from 'ngx-markdown';
   exports: [
     AceEditorModule,
     MarkdownModule,
+    ClusterStatusComponent,
     ClusterSelectComponent,
     ProjectSelectComponent,
     NamespaceSelectComponent,
